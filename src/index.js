@@ -88,7 +88,7 @@ Logger.prototype.stream = function() {
 /**
  * Log a message with a custom `level`
  */
-Logger.prototype.logData = function(level, data) {
+Logger.prototype.write = Logger.prototype.logData = function(level, data) {
   level = level || levels.info;
   if (this.isEnabled(level)) {
     this.stream().write(createPayload(this.name, level, data));
@@ -103,7 +103,7 @@ Logger.prototype.logData = function(level, data) {
  */
 Object.keys(levels).forEach(function(level) {
   Logger.prototype[level] = function() {
-    return this.logData(levels[level], arguments);
+    return this.write(levels[level], arguments);
   };
 });
 
