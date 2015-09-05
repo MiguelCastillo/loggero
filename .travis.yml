@@ -13,6 +13,6 @@ deploy:
     - "dist/index.min.js.map"
   skip_cleanup: true
   on:
-    repo: MiguelCastillo/logguero
+    repo: MiguelCastillo/loggero
     tags: true
     all_branches: true

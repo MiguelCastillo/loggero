@@ -1,5 +1,5 @@
 {
-  "name": "logguero",
+  "name": "loggero",
   "version": "0.0.1",
   "dependencies": {},
   "main": "src/index.js",
@@ -35,7 +35,7 @@
   "description": "Lightweight stream based logger",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MiguelCastillo/logguero.git"
+    "url": "https://github.com/MiguelCastillo/loggero.git"
   },
   "keywords": [
     "log"
@@ -43,7 +43,7 @@
   "author": "Miguel Castillo <manchagnu@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MiguelCastillo/logguero/issues"
+    "url": "https://github.com/MiguelCastillo/loggero/issues"
   },
-  "homepage": "https://github.com/MiguelCastillo/logguero"
+  "homepage": "https://github.com/MiguelCastillo/loggero"
 }
