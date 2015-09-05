@@ -1,11 +1,11 @@
-## logguero
+## loggero
 
 Lightweight stream based logger
 
 
 ## Examples
 
-A few examples can be found [here](https://github.com/MiguelCastillo/logguero/tree/master/examples).
+A few examples can be found [here](https://github.com/MiguelCastillo/loggero/tree/master/examples).
 
 
 ## API
@@ -31,7 +31,7 @@ The different values are
 The following example creates a logger called `OhWow` and it is configured to log warnings and errors.  Also a few messages are logged to illustrate the logging interface.
 
 ```
-var logger = require('logguero').create('OhWow');
+var logger = require('loggero').create('OhWow');
 
 logger
   .level(logger.levels.warn)
@@ -47,7 +47,7 @@ Method to find a particular logger by name. Logger comes with a default default 
 In the example below, we create a logger called `evenBetter`, and we search for the logger called `OhWoW`, configure its logging level, and log a few messages.
 
 ```
-var logger = require('logguero').create('evenBetter');
+var logger = require('loggero').create('evenBetter');
 
 logger
   .find('OhWoW')
@@ -65,7 +65,7 @@ The example below shows how the default logger is piped to `JSONStream`, and the
 
 ```
 var JSONStream = require('JSONStream');
-var logger = require('logguero');
+var logger = require('loggero');
 
 logger
   .pipe(JSONStream.stringify(false))

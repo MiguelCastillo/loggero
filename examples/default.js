@@ -1,5 +1,5 @@
 var JSONStream = require('JSONStream');
-var logger = require('logguero');
+var logger = require('loggero');
 
 logger
   .warn('A warning', 'cup cakes are low')
