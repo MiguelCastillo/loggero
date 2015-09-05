@@ -10,7 +10,7 @@ A few examples can be found [here](https://github.com/MiguelCastillo/loggero/tre
 
 ## API
 
-> All loggers are created disabled by default! You can enable them all with the `enableAll` method. Or you can configure loggero to create loggers enabled by default with `defaultEnabled`.
+> All loggers are created disabled by default! You can enable them all with the `enableAll` method, or `default.enable()`.
 
 ### create(name, options)
 
@@ -43,24 +43,17 @@ logger
   .error('Error 1');
 ```
 
-### defaultEnabled - property
-
-Property to configure if loggers should be created enabled or disabled by default, when an `enabled` options isn't provided.
-
-Defaults to `false`
-
 ### find(name)
 
 Method to find a particular logger by name. Logger comes with a default default logger instance called `global`.
 
-In the example below, we search for the logger called `OhWoW`, enable it, configure its logging level, and log a few messages.
+In the example below, we search for the logger called `OhWoW`, configure its logging level, and log a few messages.
 
 ```
 var logger = require('loggero');
 
 logger
   .find('OhWoW')
-  .enable()
   .level(logger.levels.info)
   .log('Message 1')
   .warn('Warning 1')
@@ -69,7 +62,7 @@ logger
 
 ### pipe(stream)
 
-Method to setup the stream the logger writes to.  Currently, a logger can only have one stream.
+Method to setup the stream the logger writes to. Currently, a logger can only have one stream.
 
 The example below shows how the default logger is piped to `JSONStream`, and then piped to `process.stdout`. The format logged is JSONLines.
 
