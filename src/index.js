@@ -114,8 +114,12 @@ Object.keys(levels).forEach(function(level) {
  * @returns {boolean}
  */
 Logger.prototype.isEnabled = function(level) {
+  if (!_global._enabled) {
+    return false;
+  }
+
   return (
-      (_global._enabled || this._enabled) &&
+      (this._enabled) &&
       (_global._level <= level || this._level <= level) &&
       (!_only || _only === this)
     );
