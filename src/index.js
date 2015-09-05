@@ -14,14 +14,10 @@ var _loggers = {};
 function Logger(name, options) {
   options = options || {};
 
-  if (!options.hasOwnProperty('enabled')) {
-    options.enabled = this.defaultEnabled;
-  }
-
   this.name     = name;
   this._enabled = options.enabled;
   this._stream  = options.stream;
-  this._level   = options.level || levels.log;
+  this._level   = options.level;
 
   // Cache it so that we can find it.
   _loggers[name] = this;
@@ -33,16 +29,6 @@ function Logger(name, options) {
  * Don't expect this to be a common use case.
  */
 Logger.prototype.levels = levels;
-
-
-/**
- * Global flag to define if loggers should be created enabled/disabled
- * by default. This value is only used if `enabled` isn't specified in
- * the options when creating a logger.
- *
- * Default value is false.
- */
-Logger.prototype.defaultEnabled = false;
 
 
 /**
@@ -116,11 +102,11 @@ Object.keys(levels).forEach(function(level) {
  * @returns {boolean}
  */
 Logger.prototype.isEnabled = function(level) {
-  return (
-      (_global._enabled || this._enabled) &&
-      (this._level <= level) &&
-      (!_only || _only === this)
-    );
+  var enabled = _global._enabled || this._enabled;
+  var validLevel = this._level ? this._level <= level : _global._level <= level;
+  var onlyTest = !_only || _only === this;
+
+  return enabled && validLevel && onlyTest;
 };
 
 
@@ -226,6 +212,6 @@ function getDate() {
 /**
  * Default logger instance available
  */
-var _global = new Logger('global', {stream: consoleStream});
+var _global = new Logger('global', {stream: consoleStream, level: levels.info});
 
 module.exports = Logger.prototype.default = _global;
