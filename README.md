@@ -18,9 +18,9 @@ Factory method to create loggers with a particular name.  Options are
 2. **stream** [console] - Stream to write messages to.  It defaults to console, if available.
 3. **level** [info] - Minimum level for messages to be logged.  Defaults to `info`, so everything is logged.
 
-### levels - Instance property
+### levels - property
 
-levels is a property available in all instances, which has the valid levels for enabling/disabling logging of different types of messages.
+`levels` are numeric values available as a property in all logger instances. `levels` represents a threshold for logging messages. Meaning, that only messages of equal or higher level will be logged. The lowest level is `info` and the highest level is `error`. If custom levels are used, they will follow the same processing logic for determing if a particular message should be logged.
 
 The different values are
 
@@ -28,10 +28,10 @@ The different values are
 2. `warn`.
 3. `error`.
 
-The following example creates a logger called `OhWow` and it is configured to log warnings and errors.  Also a few messages are logged to illustrate the logging interface.
+The following example creates a logger called `OhWoW` and it is configured to log warnings and errors.  Also a few messages are logged to illustrate the logging interface.
 
 ```
-var logger = require('loggero').create('OhWow');
+var logger = require('loggero').create('OhWoW');
 
 logger
   .level(logger.levels.warn)
@@ -77,7 +77,7 @@ logger
   .log('message 12');
 ```
 
-### logData(level, data)
+### write(level, data)
 
 Generic method to log messages. Call this if you are looking to write messages with a custom level. This method is what logger uses internally to log messages, warnings, and errors.
 
@@ -86,41 +86,51 @@ Generic method to log messages. Call this if you are looking to write messages w
 
 Method to log messages to the configured stream, which by default is the console.  It takes n arguments.
 
+
 ### info(message, ...)
 
 Alias for the `log` method.  Use whichever is more suitable for your taste.
+
 
 ### warn(message, ...)
 
 Method to log warnings to the configured stream.
 
+
 ### error(message, ...)
 
 Method to log errors to the configured stream.
+
 
 ### enable()
 
 Method to enable message logging by a particular logger instance.
 
+
 ### disable()
 
 Method to disable messages logging by a particular logger instance.
+
 
 ### only()
 
 Method to quickly disable ALL logger but the logger `only` was called on. Only one logger can be set to `only`.  If one is already set to `only`, the call is a noop.
 
+
 ### all()
 
 Method that removes the `only` filter.
 
+
 ### enableAll()
 
-Method to enable all loggers; global `enable`.  When this is called, all logger will log, even if a particular logger is `disabled`, unless `only` is set. If only is set, then that has higher presedence.
+Method to enable all loggers; global `enable`.  When this is called, all logger will log. However, per logger settings will have higher presedence. So if a parcular logger is disabled, then it will not run. And if `only` is set, then the `only` logger will be the only one that runs.
+
 
 ### disableAll()
 
-Method to disable all loggers; global `disable`.  When this is called, each individual logger `enabled` field will override this global value.
+Method to disable all loggers; global `disable`.  When this is called, no logger runs. This will override any logger specific setting.
+
 
 ### level(level)
 
