@@ -1,6 +1,6 @@
 ## loggero
 
-Lightweight stream based logger
+> Lightweight stream based logger
 
 
 ## Examples
@@ -10,11 +10,13 @@ A few examples can be found [here](https://github.com/MiguelCastillo/loggero/tre
 
 ## API
 
+> All loggers are created disabled by default! You can enable them all with the `enableAll` method. Or you can configure loggero to create loggers enabled by default with `defaultEnabled`.
+
 ### create(name, options)
 
 Factory method to create loggers with a particular name.  Options are
 
-1. **enabled** [true] - Flag to create the logger in a enabled/disabled state.
+1. **enabled** [false] - Flag to create the logger in a enabled/disabled state.
 2. **stream** [console] - Stream to write messages to.  It defaults to console, if available.
 3. **level** [info] - Minimum level for messages to be logged.  Defaults to `info`, so everything is logged.
 
@@ -34,23 +36,31 @@ The following example creates a logger called `OhWoW` and it is configured to lo
 var logger = require('loggero').create('OhWoW');
 
 logger
+  .enable()
   .level(logger.levels.warn)
   .log('Message 1')
   .warn('Warning 1')
   .error('Error 1');
 ```
 
+### defaultEnabled - property
+
+Property to configure if loggers should be created enabled or disabled by default, when an `enabled` options isn't provided.
+
+Defaults to `false`
+
 ### find(name)
 
 Method to find a particular logger by name. Logger comes with a default default logger instance called `global`.
 
-In the example below, we create a logger called `evenBetter`, and we search for the logger called `OhWoW`, configure its logging level, and log a few messages.
+In the example below, we search for the logger called `OhWoW`, enable it, configure its logging level, and log a few messages.
 
 ```
-var logger = require('loggero').create('evenBetter');
+var logger = require('loggero');
 
 logger
   .find('OhWoW')
+  .enable()
   .level(logger.levels.info)
   .log('Message 1')
   .warn('Warning 1')
@@ -68,6 +78,7 @@ var JSONStream = require('JSONStream');
 var logger = require('loggero');
 
 logger
+  .enable()
   .pipe(JSONStream.stringify(false))
   .pipe(process.stdout);
 
@@ -124,12 +135,12 @@ Method that removes the `only` filter.
 
 ### enableAll()
 
-Method to enable all loggers; global `enable`.  When this is called, all logger will log. However, per logger settings will have higher presedence. So if a parcular logger is disabled, then it will not run. And if `only` is set, then the `only` logger will be the only one that runs.
+Method to enable all loggers; global `enable`.  When this is called, all logger will log. `only` and `level` will still determine whether or not a logger instance can actually log a message.
 
 
 ### disableAll()
 
-Method to disable all loggers; global `disable`.  When this is called, no logger runs. This will override any logger specific setting.
+This disables the global enable flag. If this is called, then loggers will use their individual `enabled` value. `only` and `level` will still determine whether or not a logger instance can actually log a message.
 
 
 ### level(level)
