@@ -7,7 +7,7 @@ var System = (function() {
     }
   });
 
-  importer.ignore(['chai']);
+  importer.ignore(['chai', 'dist/index']);
 
   importer.plugin('js', {
     transform: {

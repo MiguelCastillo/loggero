@@ -1,6 +1,8 @@
-var _only;
+var consoleStream = require('./consoleStream');
+var levels = require('./levels');
+
+var _only, _enableAll;
 var _loggers = {};
-var levels = { log: 1, info: 1, warn: 2, error: 3 };
 
 
 /**
@@ -13,12 +15,12 @@ function Logger(name, options) {
   options = options || {};
 
   if (!options.hasOwnProperty('enabled')) {
-    options.enabled = true;
+    options.enabled = this.defaultEnabled;
   }
 
   this.name     = name;
   this._enabled = options.enabled;
-  this._stream  = options.stream || getConsoleStream();
+  this._stream  = options.stream || consoleStream;
   this._level   = options.level || levels.log;
 
   // Cache it so that we can find it.
@@ -31,6 +33,16 @@ function Logger(name, options) {
  * Don't expect this to be a common use case.
  */
 Logger.prototype.levels = levels;
+
+
+/**
+ * Global flag to define if loggers should be created enabled/disabled
+ * by default. This value is only used if `enabled` isn't specified in
+ * the options when creating a logger.
+ *
+ * Default value is false.
+ */
+Logger.prototype.defaultEnabled = false;
 
 
 /**
@@ -76,22 +88,12 @@ Logger.prototype.pipe = function(stream) {
 
 
 /**
- * Method that returns the current stream.
- *
- * @returns {Stream}
- */
-Logger.prototype.stream = function() {
-  return this._stream || _global._stream;
-};
-
-
-/**
  * Log a message with a custom `level`
  */
-Logger.prototype.write = Logger.prototype.logData = function(level, data) {
+Logger.prototype.write = function(level, data) {
   level = level || levels.info;
   if (this.isEnabled(level)) {
-    this.stream().write(createPayload(this.name, level, data));
+    this._stream.write(createPayload(this.name, level, data));
   }
 
   return this;
@@ -114,13 +116,9 @@ Object.keys(levels).forEach(function(level) {
  * @returns {boolean}
  */
 Logger.prototype.isEnabled = function(level) {
-  if (!_global._enabled) {
-    return false;
-  }
-
   return (
-      (this._enabled) &&
-      (_global._level <= level || this._level <= level) &&
+      (_enableAll || this._enabled) &&
+      (this._level <= level) &&
       (!_only || _only === this)
     );
 };
@@ -174,7 +172,7 @@ Logger.prototype.all = function() {
  * Enables loggers globally.
  */
 Logger.prototype.enableAll = function() {
-  _global._enabled = true;
+  _enableAll = true;
   return this;
 };
 
@@ -183,7 +181,7 @@ Logger.prototype.enableAll = function() {
  * Disables loggers globally.
  */
 Logger.prototype.disableAll = function() {
-  _global._enabled = false;
+  _enableAll = false;
   return this;
 };
 
@@ -213,47 +211,6 @@ function createPayload(name, level, data) {
     level: level,
     name: name,
     data: data
-  };
-}
-
-
-/**
- * Returns a valid console interface with three methods:
- *
- * @returns {{write: function}}
- */
-function getConsoleStream() {
-  var result;
-  if (typeof(console) !== 'undefined') {
-    result = console;
-  }
-
-  function write(data) {
-    if (result) {
-      switch(data.level) {
-        case levels.log:
-          result.log(data);
-          break;
-        case levels.info:
-          result.log(data);
-          break;
-        case levels.warn:
-          result.warn(data);
-          break;
-        case levels.error:
-          result.error(data);
-          break;
-      }
-    }
-  }
-
-  function pipe(stream) {
-    return stream;
-  }
-
-  return {
-    write: write,
-    pipe: pipe
   };
 }
 

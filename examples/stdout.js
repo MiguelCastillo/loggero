@@ -2,6 +2,7 @@ var JSONStream = require('JSONStream');
 var logger = require('loggero');
 
 logger
+  .enable()
   .pipe(JSONStream.stringify(false))
   .pipe(process.stdout);
 
