@@ -167,19 +167,19 @@ Logger.prototype.all = function() {
 
 
 /**
- * Disables loggers globally.
+ * Enables loggers globally.
  */
-Logger.prototype.disableAll = function() {
-  _global._enabled = false;
+Logger.prototype.enableAll = function() {
+  _global._enabled = true;
   return this;
 };
 
 
 /**
- * Enables loggers globally.
+ * Disables loggers globally.
  */
-Logger.prototype.enableAll = function() {
-  _global._enabled = true;
+Logger.prototype.disableAll = function() {
+  _global._enabled = false;
   return this;
 };
 
