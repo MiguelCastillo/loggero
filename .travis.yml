@@ -1,6 +1,18 @@
 language: node_js
 node_js:
-  - "0.12"
-
+- '0.12'
 before_install:
-  - npm install -g grunt-cli
+- npm install -g grunt-cli
+deploy:
+  provider: releases
+  api_key:
+    secure: LSW4/cDEku/IeO8UpLvVLFyAh6RuXLptna9f+adhUk6OmsbZ5GP4NT0TnpVVdHsFLIPErpy/E3AYl/cDRo6WuK+jrSKgfVGqg4Jaqo5xE6S7sRKd8TBitYBaMBXusl6y7HTV8p/pRYESows35Emz+l1TKTL4Dm+iCQovRosisCr9uuAGOINM5YSxjUxZV7Ryro4tbS/7bzwp6RFrNXeXP7TB+zrl8rmk87lzP6vJ5HDcspWFa0Oo7yHLwpI5LsqSHZOJZrXjBqn4Vssf2aaJ0DaG1nHxEEAXtLB2rLVZ8qS7qamMsh6GDZbKjHZUUOBGSAF13cKFf8fw/VQQDLAPtZ1NdEl9XySEzG5jA2sJ1q7IXyn9RheOoBXR04Ag/vW83XHHnTqwAC5pfu8VltyXKQLn9QtGjVTzBujz5KUoPVkrqQ8WcN81jvlaPnWbUe8bNjmynxd69kqvrlyWfQs1jLdTWw7D0p8OGEpRmPT0DyjsfaWXiIP2ZbCkjcOQY+WIBuUJQCosSntah8kdf/Wzzwvpa+Fs6k4bYJKRA/4AkjTU9RjINJRARa3g9/HAWg8udDjSeLXGHxzvG7Ic1H+gFrcJAw9xkl2mhnzLfyOTkZGupTbo4AcGEjHKWNc80OJ9PzoiKRg/f38ruEHnw11tkkCE2OGboACx9SvtJqOoaKQ=
+  file:
+    - "dist/index.js"
+    - "dist/index.min.js"
+    - "dist/index.min.js.map"
+  skip_cleanup: true
+  on:
+    repo: MiguelCastillo/logguero
+    tags: true
+    all_branches: true
