@@ -42,9 +42,9 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      test: {
+      build: {
         files: ['src/**/*.js', 'test/**/*.js', '*.js'],
-        tasks: ['eslint:all', 'browserify:build'],
+        tasks: ['build'],
         options: {
           livereload: true
         }
@@ -59,8 +59,8 @@ module.exports = function(grunt) {
       }
     },
     concurrent: {
-      test: {
-        tasks: ['connect:keepalive', 'watch:test'],
+      build: {
+        tasks: ['connect:keepalive', 'watch:build'],
         options: {
           logConcurrentOutput : true
         }
@@ -102,6 +102,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', ['eslint:all', 'browserify:build', 'uglify:build']);
-  grunt.registerTask('serve', ['concurrent:test']);
+  grunt.registerTask('serve', ['build', 'concurrent:build']);
   grunt.registerTask('test', ['connect:test', 'mocha:test']);
 };
