@@ -4,6 +4,10 @@ var levels = require('./levels');
 var _only;
 var _loggers = {};
 
+var _defaults = defaults({
+  enabled: true
+});
+
 
 /**
  * @class
@@ -12,14 +16,10 @@ var _loggers = {};
  * @param {string} name - Name of the logger
  */
 function Logger(name, options) {
-  options = options || {};
-
   this.name     = name;
-  this._enabled = options.enabled;
-  this._stream  = options.stream;
-  this._level   = options.level;
-
-  // Cache it so that we can find it.
+  this._enabled = _defaults(options, 'enabled');
+  this._stream  = _defaults(options, 'stream');
+  this._level   = _defaults(options, 'level');
   _loggers[name] = this;
 }
 
@@ -102,7 +102,11 @@ Object.keys(levels).forEach(function(level) {
  * @returns {boolean}
  */
 Logger.prototype.isEnabled = function(level) {
-  var enabled = _global._enabled || this._enabled;
+  if (!_global._enabled) {
+    return false;
+  }
+
+  var enabled = this._enabled;
   var validLevel = this._level ? this._level <= level : _global._level <= level;
   var onlyTest = !_only || _only === this;
 
@@ -212,6 +216,13 @@ function getDate() {
 /**
  * Default logger instance available
  */
-var _global = new Logger('global', {stream: consoleStream, level: levels.info});
+var _global = new Logger('global', {stream: consoleStream, level: levels.info, enabled: true});
 
 module.exports = Logger.prototype.default = _global;
+
+
+function defaults(_defaults) {
+  return function read(options, name) {
+      return options && options.hasOwnProperty(name) ? options[name] : _defaults[name];
+  }
+}
