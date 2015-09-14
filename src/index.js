@@ -20,7 +20,19 @@ function Logger(name, options) {
   this._enabled = _defaults(options, 'enabled');
   this._stream  = _defaults(options, 'stream');
   this._level   = _defaults(options, 'level');
+
+  var logger = this;
   _loggers[name] = this;
+
+  /**
+   * Create the logger method for each level. Set it up in the constructor
+   * to properly lock in the context.
+   */
+  Object.keys(levels).forEach(function(level) {
+    logger[level] = function() {
+      return logger.write(levels[level], arguments);
+    };
+  });
 }
 
 
@@ -84,16 +96,6 @@ Logger.prototype.write = function(level, data) {
 
   return this;
 };
-
-
-/**
- * Create the logger method for each level.
- */
-Object.keys(levels).forEach(function(level) {
-  Logger.prototype[level] = function() {
-    return this.write(levels[level], arguments);
-  };
-});
 
 
 /**
@@ -224,5 +226,5 @@ module.exports = Logger.prototype.default = _global;
 function defaults(_defaults) {
   return function read(options, name) {
       return options && options.hasOwnProperty(name) ? options[name] : _defaults[name];
-  }
+  };
 }
