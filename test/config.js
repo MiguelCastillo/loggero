@@ -20,3 +20,5 @@ var System = (function() {
 
   return importer;
 })();
+
+var require = System.require; // eslint-disable-line
