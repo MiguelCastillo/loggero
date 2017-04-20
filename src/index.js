@@ -218,13 +218,13 @@ function getDate() {
 /**
  * Default logger instance available
  */
-var _global = new Logger('global', {stream: consoleStream, level: levels.info, enabled: true});
+var _global = (global.___loggero || (global.___loggero = new Logger('global', {stream: consoleStream, level: levels.info, enabled: true})));
 
 module.exports = Logger.prototype.default = _global;
 
 
 function defaults(_defaults) {
   return function read(options, name) {
-      return options && options.hasOwnProperty(name) ? options[name] : _defaults[name];
+    return options && options.hasOwnProperty(name) ? options[name] : _defaults[name];
   };
 }
