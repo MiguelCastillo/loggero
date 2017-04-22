@@ -1,8 +1,7 @@
 {
   "name": "loggero",
-  "version": "2.0.1",
-  "dependencies": {
-  },
+  "version": "2.1.0",
+  "dependencies": {},
   "main": "src/index.js",
   "scripts": {
     "prepublish": "grunt build",
@@ -26,9 +25,7 @@
     "sinon": "~2.1.0",
     "spromise": "^1.0.0"
   },
-  "browser": {
-
-  },
+  "browser": {},
   "directories": {
     "test": "test"
   },
