@@ -1,1 +1,0 @@
-import 'test/spec/index';

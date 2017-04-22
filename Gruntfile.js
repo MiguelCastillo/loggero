@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     },
     watch: {
       build: {
-        files: ['src/**/*.js', 'test/**/*.js', '*.js'],
+        files: ['src/**/*.js', '*.js'],
         tasks: ['build'],
         options: {
           livereload: true
@@ -52,10 +52,7 @@ module.exports = function(grunt) {
     },
     eslint: {
       all: {
-        options: {
-          format: require('eslint-tap')
-        },
-        src: ['src/**/*.js', 'test/**/*.js', '*.js']
+        src: ['src/**/*.js', '*.js']
       }
     },
     concurrent: {
@@ -103,5 +100,4 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['eslint:all', 'browserify:build', 'uglify:build']);
   grunt.registerTask('serve', ['build', 'concurrent:build']);
-  grunt.registerTask('test', ['connect:test', 'mocha:test']);
 };

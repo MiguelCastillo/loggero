@@ -1,30 +1,34 @@
 var levels = require('./levels');
-var result;
-
-if (typeof(console) !== 'undefined') {
-  result = console;
-}
+var dest = typeof(console) !== 'undefined' ? console : false;
+var stream;
 
 function write(data) {
-  if (result) {
-    switch(data.level) {
-      case levels.log:
-        result.log(data);
-        break;
-      case levels.info:
-        result.log(data);
-        break;
-      case levels.warn:
-        result.warn(data);
-        break;
-      case levels.error:
-        result.error(data);
-        break;
-    }
+  if (!dest) {
+    return;
+  }
+
+  switch(data.level) {
+    case levels.log:
+      dest.log(data);
+      break;
+    case levels.info:
+      dest.log(data);
+      break;
+    case levels.warn:
+      dest.warn(data);
+      break;
+    case levels.error:
+      dest.error(data);
+      break;
+  }
+
+  if (stream) {
+    stream.write(data);
   }
 }
 
-function pipe(stream) {
+function pipe(next) {
+  stream = next;
   return stream;
 }
 
