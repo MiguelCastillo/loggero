@@ -77,10 +77,7 @@ Logger.prototype.find = function(name) {
  * @returns {Stream} stream passed in
  */
 Logger.prototype.pipe = function(stream) {
-  if (stream !== this._stream) {
-    this._stream = stream;
-  }
-
+  this._stream = stream;
   return stream;
 };
 
