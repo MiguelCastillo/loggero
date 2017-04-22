@@ -1,5 +1,6 @@
 var levels = require('./levels');
 var dest = typeof(console) !== 'undefined' ? console : false;
+var stream;
 
 function write(data) {
   if (!dest) {
@@ -20,9 +21,14 @@ function write(data) {
       dest.error(data);
       break;
   }
+
+  if (stream) {
+    stream.write(data);
+  }
 }
 
-function pipe(stream) {
+function pipe(next) {
+  stream = next;
   return stream;
 }
 
