@@ -5,7 +5,8 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "prepublish": "grunt build"
+    "prepublish": "grunt build",
+    "test": "echo 'no tests'"
   },
   "devDependencies": {
     "JSONStream": "^1.3.1",
