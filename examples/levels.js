@@ -15,7 +15,7 @@ logger
 
 // Log all messages. E.g. info, warnings, and errors
 logger
-  .level(logger.levels.info)
+  .level(logger.levels.warn)
   .warn('A warning', 'cup cakes are low')
   .error('An error', 'cup cakes ran out', 'buy more')
   .level(logger.levels.info)
